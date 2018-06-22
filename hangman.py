@@ -11,29 +11,25 @@
 
 
 #the entire alphabet, for guessing purposes
-
 def play():
-    choice = input('Pick a letter: ')
+    choice = str(input('Pick a letter: ')).upper()
     possible_choices = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
     answer_letters = ['B','L','U','E']
     correct_guesses =[]
     status = correct_guesses
     status = []
     correct = 'q'
+    starter = 0
 
-    # for i in answer_letters:
-    # if choice == 'status':
-    #     print(status)
-    for i in answer_letters:
-        if choice.upper() == answer_letters:
-            print("correct")
-            correct = choice.upper()
-        else:
-            for (idx, val) in enumerate(answer_letters):
-          
+
+    if choice in answer_letters:
+        print('correct!')
+        idx = answer_letters.index(choice)
+        correct_guesses.insert(idx,choice)
+        print(correct_guesses)
+    elif choice == 'status':
+        print('status')
+    else:
+        print('guess is wrong')
+
 play()
-
-
-
-
-
