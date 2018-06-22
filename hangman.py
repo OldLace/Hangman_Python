@@ -1,28 +1,19 @@
-# Using the Exercise Branches and Functions, create a simple puzzle game which starts with
-# asking user a question. For every question, you should either give user the option to select from
-# or let user enter the answer. For each user answer, your game should take the next step
-# accordingly using conditions.
-# 1. Your game should ask user for input at least five ​times
-# 2. Your code should have functions (basically for everything)
+# choice = str(input('Pick a letter: ')).upper()
+possible_choices = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+answer_letters = ['B','L','U','E']
+correct_guesses =[]
+status = correct_guesses
+status = []
+correct = 'q'
+starter = 0
 
+choice_guesses = []
 
-
-#this is the complete word, these are the correct letters that haven't been guessed yet
-
-
-#the entire alphabet, for guessing purposes
-def play():
+while correct_guesses != answer_letters:
     choice = str(input('Pick a letter: ')).upper()
-    possible_choices = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-    answer_letters = ['B','L','U','E']
-    correct_guesses =[]
-    status = correct_guesses
-    status = []
-    correct = 'q'
-    starter = 0
-
-
-    if choice in answer_letters:
+    if correct_guesses == answer_letters:
+        print('Winner, Winner! Chicken Dinner!!')
+    elif choice in answer_letters:
         print('correct!')
         idx = answer_letters.index(choice)
         correct_guesses.insert(idx,choice)
@@ -31,5 +22,30 @@ def play():
         print('status')
     else:
         print('guess is wrong')
+  
 
-play()
+
+
+# choice = str(input('Pick a letter: ')).upper()
+# if choice in answer_letters:
+#     print('correct!')
+#     idx = answer_letters.index(choice)
+#     correct_guesses.insert(idx,choice)
+#     print(correct_guesses)
+#     choice = str(input('Pick a letter: ')).upper()
+    
+# elif choice == 'status':
+#     print('status')
+# else:
+#     print('guess is wrong')
+
+
+
+    # def handle_correct():
+    #     if choice in answer_letters:
+    #         print('correct!')
+    #         idx = answer_letters.index(choice)
+    #         correct_guesses.insert(idx,choice)
+    #         print(correct_guesses)
+
+# playgame()
