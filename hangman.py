@@ -14,10 +14,15 @@ while correct_guesses != answer_letters:
     if correct_guesses == answer_letters:
         print('Winner, Winner! Chicken Dinner!!')
     elif choice in answer_letters:
-        print('correct!')
-        idx = answer_letters.index(choice)
-        correct_guesses.insert(idx,choice)
-        print(correct_guesses)
+        if choice not in correct_guesses:
+            print('correct!')
+            idx = answer_letters.index(choice)
+            correct_guesses.insert(idx,choice)
+            print(correct_guesses)
+        else:
+            print("Letter has been used previously")
+    elif choice in correct_guesses:
+        print("Letter already used")
     elif choice == 'status':
         print('status')
     else:
