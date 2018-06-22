@@ -5,15 +5,35 @@
 # 1. Your game should ask user for input at least five ​times
 # 2. Your code should have functions (basically for everything)
 
-answer_letters = ['B','L','U','E']
 
-possible_choices = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','N','O','O'
 
-def play(answer):
+#this is the complete word, these are the correct letters that haven't been guessed yet
+
+
+#the entire alphabet, for guessing purposes
+
+def play():
     choice = input('Pick a letter: ')
+    possible_choices = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    answer_letters = ['B','L','U','E']
+    correct_guesses =[]
+    status = correct_guesses
+    status = []
+    correct = 'q'
+
+    # for i in answer_letters:
+    # if choice == 'status':
+    #     print(status)
+    for i in answer_letters:
+        if choice.upper() == answer_letters:
+            print("correct")
+            correct = choice.upper()
+        else:
+            for (idx, val) in enumerate(answer_letters):
+          
+play()
 
 
 
 
 
-# randint
