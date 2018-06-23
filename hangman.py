@@ -38,13 +38,11 @@ for i in result[word_idx]:
 # answer_letters = test_letters
     # while correct_guesses != answer_letters:
 while win_state == 0:
-    choice = str(input('Pick a letter: '))
     if right == len(answer_letters):
-        # win_state = win_state + 1:
-        
-    # if correct_guesses == answer_letters:
         print('Winner, Winner! Chicken Dinner!!')
         sys.exit()
+    choice = str(input('Pick a letter: '))
+    
 
     if choice in answer_letters:
         # if choice not in correct_guesses:
@@ -59,9 +57,15 @@ while win_state == 0:
     elif choice in correct_guesses:
         print("Letter already used")
         status = status -1 
+        if status <= 0:
+            print('***** Game Over *****')
+            sys.exit()
     elif choice == 'status':
         print(status, "guesses remaining...")
     else:
         print('Incorrect letter; Pick again')
         status = status -1 
-    
+        if status <= 0:
+            print('***** Game Over! Better Luck Next Time... *****')
+            sys.exit()
+
