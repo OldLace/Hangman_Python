@@ -1,49 +1,50 @@
-# choice = str(input('Pick a letter: ')).upper()
+import random #used later to generate random number for result index 
+import sys #used to quit the program when win or loss condition is met
+import time #used  later for the time delays
 
-import random
-import sys
-
-possible_choices = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 answer_letters = []
 correct_guesses =[]
-# status = correct_guesses
-status = 5
-correct = 'q'
+
+status = 5 #Number of guesses player starts game with
 win_state = 0
-right = 0
+right = 0  #Variable for how many correct guesses the player has made
+
 choice_guesses = []
-test_letters = []
-# category = input("Please select a category: ")
 
-# for x in range(-1,12)
-    
-
-   
-
+#All the possible word answers for the game are here in the form of a list 
 result = ['dog', 'bird', 'snake','bear', 'blue','black', 'white', 'orange', 'computer', 'virtual','blockchain','netflix']
 
-
+#Used to generate a random number from 0 to 11; the possible indices of the result list
 word_idx = random.randint(-1,11)
-print(word_idx)
-length_element = [len(i) for i in result[word_idx]]
-print(length_element)
-correct_guesses = ['*'] * len(result[word_idx])
-# [len(i) for i in result[word_idx]]
-# print(length_element)
+# print(word_idx) 
 
-for i in result[word_idx]:
-    answer_letters.append(i)
-    print(answer_letters)
-# answer_letters.insert(0,result[word_idx][0])
-# answer_letters = test_letters
-    # while correct_guesses != answer_letters:
+#Needed to get the length of the result element in order to populate it with as many * as the length of the result 
+length_element = [len(i) for i in result[word_idx]]
+correct_guesses = ['_'] * len(result[word_idx])
+
+print('*** Welcome to the Guessing Game!! ***')
+time.sleep(2) #Pause for 2 seconds for dramatic effect
+print('Guess the which letters are in the word!')
+time.sleep(1)
+print('You begin with', status,'guesses.')
+time.sleep(1)
+print("Type 'status' to see how many chances you have left.")
+time.sleep(2)
+print("Run out of guesses and it's...")
+
+over = ['GAME','OVER','FOR','YOU!','---------'] # A fun loop to add some character and flair to this game
+for i in over:
+    print(i)
+    time.sleep(1)
+print("This is your word:",correct_guesses)
+for i in result[word_idx]:  #loops through the word at the randomly chosen index
+    answer_letters.append(i)   #puts the letters of the word to the answers_letters list
 while win_state == 0:
-    if right == len(answer_letters):
-        print('Winner, Winner! Chicken Dinner!!')
-        sys.exit()
+    if right == len(answer_letters):  #Detects if the number of right guesses is equal to the length of the word
+        print('You win!!!!')
+        sys.exit()   #Exits program upon meeting the win condition
     choice = str(input('Pick a letter: '))
     
-
     if choice in answer_letters:
         # if choice not in correct_guesses:
         print('correct!')
@@ -54,18 +55,17 @@ while win_state == 0:
         print(correct_guesses)
         right = right + 1
         
-    elif choice in correct_guesses:
+    elif choice in correct_guesses:  #This loop is used to detect duplicate guesses
         print("Letter already used")
         status = status -1 
         if status <= 0:
             print('***** Game Over *****')
-            sys.exit()
+            sys.exit()  #Quits the game upon loss
     elif choice == 'status':
         print(status, "guesses remaining...")
     else:
         print('Incorrect letter; Pick again')
         status = status -1 
         if status <= 0:
-            print('***** Game Over! Better Luck Next Time... *****')
-            sys.exit()
-
+            print('***** Game Over! Better Luck Next Time... *****') 
+            sys.exit()  #Quits the game upon loss
