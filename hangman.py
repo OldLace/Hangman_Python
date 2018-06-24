@@ -15,11 +15,10 @@ def play_game():
     choice_guesses = []
 
     #All the possible word answers for the game are here in the form of a list 
-    result = ['dog', 'bird', 'snake','bear', 'blue','black', 'white', 'orange', 'computer', 'virtual','blockchain','netflix']
+    result = ['dog', 'bird', 'snake','bear', 'blue','black', 'white', 'orange', 'computer', 'virtual','peanut','netflix']
 
     #Used to generate a random number from 0 to 11; the possible indices of the result list
     word_idx = random.randint(-1,11)
-    # print(word_idx) 
 
     #Needed to get the length of the result element in order to populate it with as many * as the length of the result 
     length_element = [len(i) for i in result[word_idx]]
@@ -27,15 +26,17 @@ def play_game():
 
     print('*** Welcome to the Guessing Game!! ***')
     time.sleep(2) #Pause for 2 seconds for dramatic effect
+    print('---------------How to Play:---------------')
     print('Guess which letters are in the word!')
     time.sleep(1)
     print('You begin with', status,'guesses.')
     time.sleep(1)
-    print("Type 'status' to see how many chances you have left.")
+    print("NOTE: You can type 'status' to see how many chances you have left.")
     time.sleep(2)
     print("Run out of guesses and it's...")
 
-    over = ['GAME','OVER','FOR','YOU!','---------'] # A fun loop to add some character and flair to this game
+    over = ['GAME','OVER','FOR','YOU!','---------------------------------------'] 
+    # A fun loop to add some character and flair to this game
     for i in over:
         print(i)
         time.sleep(1)
@@ -48,26 +49,28 @@ def play_game():
             restart_game()
         choice = str(input('Pick a letter: '))
         
-        if choice in answer_letters:
-            # if choice not in correct_guesses:
-            print('correct!')
-            idx = answer_letters.index(choice)
-            # del correct_guesses[idx]
-            correct_guesses.pop(idx)
-            correct_guesses.insert(idx,choice)
-            print(correct_guesses)
-            right = right + 1
-            
-        elif choice in correct_guesses:  #This loop is used to detect duplicate guesses
+        if choice in correct_guesses:  #This loop is used to detect duplicate guesses
             print("Letter already used")
             status = status -1 
             if status <= 0:
                 print('***** Game Over *****')
-                sys.exit()  #Quits the game upon loss
+                restart_game()
+                
+        elif choice in answer_letters:
+            print('correct!')
+            idx = answer_letters.index(choice)
+            correct_guesses.pop(idx)
+            correct_guesses.insert(idx,choice) #inserts correct choice into list at the appropriate index
+            print(correct_guesses)
+            right = right + 1
+       
         elif choice == 'status':
-            print(status, "guesses remaining...")
+            if status > 1:
+                print(status, "guesses remaining...")
+            else:
+                print(status, "guess remaining... no pressure! (._.) ")    
         else:
-            print('Incorrect choice!; Pick again')
+            print('Incorrect choice!')
             status = status -1 
             if status <= 0:
                 print('***** Game Over! Better Luck Next Time... *****') 
@@ -76,9 +79,11 @@ def play_game():
 def restart_game(): #function to restart game based on user input
     restart = input('Play again? ')
     if restart == 'y' or restart == 'Y' or restart == 'yes' or restart == 'Yes':
-        print('************')
-        print('************')
-        print('************')
+        print('*************')
+        print('*************')
+        print('*************')
+        print('*************')
+        print('*************')
         play_game()
     elif restart == 'n' or restart == 'N' or restart == 'no' or restart == 'No':
         print('Thanks for playing! Goodbye.')
@@ -87,6 +92,4 @@ def restart_game(): #function to restart game based on user input
         print('Invalid choice. Play Again? Yes or No?')
         restart_game()
 
-
 play_game()
-
