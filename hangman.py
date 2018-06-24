@@ -1,4 +1,4 @@
-#Paul Gelot
+##The Guessing Game AKA Hangman - By: Paul Gelot
 
 import random #used later to generate random number for result index 
 import sys #used to quit the program when win or loss condition is met
@@ -45,7 +45,7 @@ def play_game():
     while win_state == 0:
         if right == len(answer_letters):  #Detects if the number of right guesses is equal to the length of the word
             print('You win!!!!')
-            sys.exit()   #Exits program upon meeting the win condition
+            restart_game()
         choice = str(input('Pick a letter: '))
         
         if choice in answer_letters:
@@ -71,6 +71,15 @@ def play_game():
             status = status -1 
             if status <= 0:
                 print('***** Game Over! Better Luck Next Time... *****') 
-                sys.exit()  #Quits the game upon loss
+                restart_game()
+
+def restart_game(): #function to restart game based on user input
+    restart = input('Play again? ')
+    if restart == 'y' or restart == 'Y' or restart == 'yes' or restart == 'Yes':
+        play_game()
+    elif restart == 'n' or restart == 'N' or restart == 'no' or restart == 'No':
+        sys.exit()   #Exits program
+
 
 play_game()
+
