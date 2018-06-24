@@ -76,9 +76,16 @@ def play_game():
 def restart_game(): #function to restart game based on user input
     restart = input('Play again? ')
     if restart == 'y' or restart == 'Y' or restart == 'yes' or restart == 'Yes':
+        print('************')
+        print('************')
+        print('************')
         play_game()
     elif restart == 'n' or restart == 'N' or restart == 'no' or restart == 'No':
+        print('Thanks for playing! Goodbye.')
         sys.exit()   #Exits program
+    else:
+        print('Invalid choice. Play Again? Yes or No?')
+        restart_game()
 
 
 play_game()
