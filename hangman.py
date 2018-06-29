@@ -40,7 +40,7 @@ def play_game():
     for i in over:
         print(i)
         time.sleep(1)
-    print("This is your word:",correct_guesses)
+    print("This is your word:",' '.join(correct_guesses))
     for i in result[word_idx]:  #loops through the word at the randomly chosen index
         answer_letters.append(i)   #puts the letters of the word to the answers_letters list
     while win_state == 0:
@@ -61,7 +61,7 @@ def play_game():
             idx = answer_letters.index(choice)
             correct_guesses.pop(idx)
             correct_guesses.insert(idx,choice) #inserts correct choice into list at the appropriate index
-            print(correct_guesses)
+            print(' '.join(correct_guesses))
             right = right + 1
        
         elif choice == 'status':
