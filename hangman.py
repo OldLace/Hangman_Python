@@ -8,19 +8,31 @@ def play_game():
     answer_letters = []
     correct_guesses =[]
 
+    dupe_count = 0
+    dupe_list = []
+    dupe1_index = 0
+    dupe2_index = 1
+    dupe3_index = 2
+
     status = 5 #Number of guesses player starts game with
     win_state = 0
     right = 0  #Variable for how many correct guesses the player has made
 
-    choice_guesses = []
+    all_guesses = []
 
     #All the possible word answers for the game are here in the form of a list 
-    result = ['dog', 'bird', 'snake','bear', 'blue','black', 'white', 'orange', 'computer', 'virtual','peanut','netflix']
-
+    # result = ['dog', 'bird', 'snake','bear', 'blue','black', 'white', 'orange', 'computer', 'virtual','peanut','netflix']
+    result = ['really', 'doggy']
     #Used to generate a random number from 0 to 11; the possible indices of the result list
-    word_idx = random.randint(-1,11)
+    word_idx = random.randint(-1,1)
+#   -----------------------------------------------
+    for i in range(len(result[word_idx]) -1):
+        if result[word_idx][i] == result[word_idx][i+1]:
+            dupe_list.append(result[word_idx][i])
 
-    #Needed to get the length of the result element in order to populate it with as many * as the length of the result 
+    
+
+    #Needed to get the length of the result element in order to populate it with as many blanks as the length of the result 
     length_element = [len(i) for i in result[word_idx]]
     correct_guesses = ['_'] * len(result[word_idx])
 
@@ -49,20 +61,52 @@ def play_game():
             restart_game()
         choice = str(input('Pick a letter: '))
         
-        if choice in correct_guesses:  #This loop is used to detect duplicate guesses
+#  HERE!!!!!!!!
+# if choice in dupe_list:
+#     for i in answer_letters:
+#         if choice[i] == answer_letters[i]:
+
+    #if choice in dupe_list
+        # if choice in dupe_list:
+        #     answer_letters.insert(idx)
+        #     answer_letters.insert(idx + 1)
+        
+# ------------------------
+
+        if choice in answer_letters:  
+            if choice not in dupe_list:  #This loop is used to detect duplicate guesses
+                print('correct!')   
+                idx = answer_letters.index(choice)
+                correct_guesses.pop(idx)
+                correct_guesses.insert(idx,choice) #inserts correct choice into list at the appropriate index
+                print(' '.join(correct_guesses))
+                right = right + 1
+                all_guesses.append(choice)
+
+        if choice in dupe_list :
+            idx = answer_letters.index(choice)
+            correct_guesses.pop(idx)
+            correct_guesses.pop(idx + 1)
+            correct_guesses.insert(idx, choice)
+            correct_guesses.insert(idx + 1, choice)
+            print(' '.join(correct_guesses))
+            right = right + 1
+            all_guesses.append(choice)
+        elif choice in all_guesses:
             print("Letter already used")
             status = status -1 
             if status <= 0:
                 print('***** Game Over *****')
                 restart_game()
                 
-        elif choice in answer_letters:
-            print('correct!')
-            idx = answer_letters.index(choice)
-            correct_guesses.pop(idx)
-            correct_guesses.insert(idx,choice) #inserts correct choice into list at the appropriate index
-            print(' '.join(correct_guesses))
-            right = right + 1
+        # elif choice in answer_letters:
+        #     print('correct!')
+        #     idx = answer_letters.index(choice)
+        #     correct_guesses.pop(idx)
+        #     correct_guesses.insert(idx,choice) #inserts correct choice into list at the appropriate index
+        #     print(' '.join(correct_guesses))
+        #     right = right + 1
+        #     all_guesses.append(choice)
        
         elif choice == 'status':
             if status > 1:
