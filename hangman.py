@@ -1,12 +1,17 @@
-##The Guessing Game AKA Hangman - By: Paul Gelot
+##The Guessing Game Version 1.1 AKA Hangman - By: Paul Gelot
 
 import random #used later to generate random number for result index 
 import sys #used to quit the program when win or loss condition is met
 import time #used  later for the time delays
 
-
 def play_game():
-    word = 'millenials'
+    #All the possible word answers for the game are here in the form of a list 
+    result = ['dog','cappuccino','millenials', 'bird', 'snake','bear','really','blockchain', 'blue','cappuccino','black', 'white', 'orange', 'computer', 'virtual','peanut','netflix']
+
+    #Used to generate a random number from 0 to 17; the possible indices of the result list
+    random_index = random.randint(-1,17)
+
+    word = result[random_index]
     right_counter = 0
     wrong_counter = 0
 
