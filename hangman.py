@@ -1,4 +1,4 @@
-##The Guessing Game Version 1.1 AKA Hangman - By: Paul Gelot
+##The Guessing Game Version 1.2 AKA Hangman - By: Paul Gelot
 
 import random #used later to generate random number for result index 
 import sys #used to quit the program when win or loss condition is met
@@ -11,8 +11,8 @@ def play_game():
     #Used to generate a random number from 0 to 17; the possible indices of the result list
     random_index = random.randint(-1,17)
 
-    # word = 'résumé-resume'
-    word = result[random_index]
+    word = 'résumé-resume' #Test word for hyphens
+    # word = result[random_index]
     right_counter = 0
     wrong_counter = 0
 
@@ -23,14 +23,17 @@ def play_game():
         special_char = 0
         for i in  range(len(word)):
             new_word_underscore.append('_')
-        # for i in range(len(word)):
-            # if word[i] == '-':
+        for i in range(len(word)):
+            if word[i] == '-':
             #     special_char = 1
-            #     new_word_underscore[i] = word[i]  
+                new_word_underscore[i] = word[i]  
         return new_word_underscore
             
     word_underscore = create_underscore_word(word)
-    # word_underscore = create_underscore_word[0]
+    for i in range(len(word)):
+        if word[i] == '-':
+            right_counter += 1
+
     print("This is your word: ") 
     print(' '.join(word_underscore))
     
@@ -65,7 +68,8 @@ def play_game():
         elif wrong_counter == 5:
             print('You lose')
             restart_game()
-            return
+            return     
+            
 
 def restart_game(): #function to restart game based on user input
     restart = input('Play again? ')
