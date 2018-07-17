@@ -34,6 +34,26 @@ def play_game():
         if word[i] == '-':
             right_counter += 1
 
+    #### Superfluous presentation elements - Remove when testing
+    print('*** Welcome to the Guessing Game!! ***')
+    time.sleep(2) #Pause for 2 seconds for dramatic effect
+    print('---------------How to Play:---------------')
+    print('Guess which letters are in the word!')
+    # time.sleep(1)
+    print('You begin with', status,'guesses.')
+    # time.sleep(1)
+    print("NOTE: You can type 'status' to see how many chances you have left.")
+    # time.sleep(2)
+    print("Run out of guesses and it's...")
+
+    over = ['GAME','OVER','FOR','YOU!','---------------------------------------'] 
+
+    # A fun loop to add some character and flair to this game
+    for i in over:
+        print(i)
+        time.sleep(1)
+      #### End of presentation elements ####
+      
     print("This is your word: ") 
     print(' '.join(word_underscore))
     
