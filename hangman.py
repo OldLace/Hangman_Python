@@ -6,13 +6,13 @@ import time #used  later for the time delays
 
 def play_game():
     #All the possible word answers for the game are here in the form of a list 
-    result = ['dog','cappuccino','millenials', 'bird', 'snake','bear','really','blockchain', 'blue','cappuccino','black', 'white', 'orange', 'computer', 'virtual','peanut','netflix']
+    result = ['dog','cappuccino','millenials', 'bird', 'snake','bear','really','blockchain', 'blue','cappuccino','black', 'white', 'orange', 'computer', 'mother-in-law', 'virtual', 'attaché','peanut','netflix', 'résumé', 'good-hearted']
 
     #Used to generate a random number from 0 to 17; the possible indices of the result list
-    random_index = random.randint(-1,17)
+    random_index = random.randint(-1,20)
 
-    word = 'résumé-resume' #Test word for hyphens
-    # word = result[random_index]
+    # word = 'résumé-resume' #Test word for hyphens
+    word = result[random_index]
     right_counter = 0
     wrong_counter = 0
 
