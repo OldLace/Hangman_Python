@@ -1,4 +1,4 @@
-##The Guessing Game Version 1.2 AKA Hangman - By: Paul Gelot
+##The Guessing Game Version 1.3 AKA Hangman - By: Paul Gelot
 
 import random #used later to generate random number for result index 
 import sys #used to quit the program when win or loss condition is met
@@ -6,10 +6,12 @@ import time #used  later for the time delays
 
 def play_game():
     #All the possible word answers for the game are here in the form of a list 
-    result = ['dog','cappuccino','millenials', 'bird', 'snake','bear','really','blockchain', 'blue','cappuccino','black', 'white', 'orange', 'computer', 'mother-in-law', 'virtual', 'attaché','peanut','netflix', 'résumé', 'good-hearted']
+    result = ['iced coffee','dog','peanut butter','cappuccino','millenials', 'quality control','bird', 'snake','bear','really','blockchain', 'blue','cappuccino','black', 'white', 'orange', 'computer', 'mother-in-law', 'virtual', 'attaché','peanut','netflix', 'résumé', 'good-hearted']
+    # result = ['d og','c appuccino','mil lenials', 'b ird', 's nake','be ar','re ally','bloc kchain', 'bl ue','cap puccino','bla ck', 'whi te', 'ora nge', 'com puter', 'mot her-in-law', 'vir tual', 'at taché','pe anut','ne tflix', 'résu mé', 'go od-hearted']
 
-    #Used to generate a random number from 0 to 17; the possible indices of the result list
-    random_index = random.randint(-1,20)
+
+    #Used to generate a random number; the possible indices of the result list
+    random_index = random.randint(-1,23)
 
     # word = 'résumé-resume' #Test word for hyphens
     word = result[random_index]
@@ -27,13 +29,15 @@ def play_game():
             if word[i] == '-':
             #     special_char = 1
                 new_word_underscore[i] = word[i]  
+            if word[i] == ' ':
+                new_word_underscore[i] = word[i]  
         return new_word_underscore
-            
+       
     word_underscore = create_underscore_word(word)
     for i in range(len(word)):
         if word[i] == '-':
             right_counter += 1
-
+        
     #### Superfluous presentation elements - Remove when testing
     print('*** Welcome to the Guessing Game!! ***')
     time.sleep(2) #Pause for 2 seconds for dramatic effect
@@ -51,8 +55,14 @@ def play_game():
     #### End of presentation elements ####
       
     print("This is your word: ") 
-    print(' '.join(word_underscore))
-    
+    print(' '.join(word_underscore)) 
+
+    #this loop will add 1 to the score, if a blank space is detected in the answer
+    for letter in word:  
+        if letter == " ": 
+            right_counter += 1
+        else:
+            continue
     while True: 
         choice = input("Choose a letter: ")
         
@@ -99,7 +109,7 @@ def restart_game(): #function to restart game based on user input
     elif restart == 'n' or restart == 'N' or restart == 'no' or restart == 'No':
         print('Thanks for playing! Goodbye.')
         sys.exit()   #Exits program
-    else:
+    else:   
         print('Invalid choice. Play Again? Yes or No?')
         restart_game()
 
