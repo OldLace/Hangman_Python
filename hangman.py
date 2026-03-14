@@ -1,20 +1,26 @@
-##The Guessing Game Version 1.3 AKA Hangman - By: Paul Gelot
+##Pokemon Guessing Game
 
 import random #used later to generate random number for result index 
+import requests
 import sys #used to quit the program when win or loss condition is met
 import time #used  later for the time delays
 
 def play_game():
-    #All the possible word answers for the game are here in the form of a list 
-    result = ['iced coffee','dog','peanut butter','cappuccino','millenials', 'quality control','bird', 'snake','bear','really','blockchain', 'blue','cappuccino','black', 'white', 'orange', 'computer', 'mother-in-law', 'virtual', 'attaché','peanut','netflix', 'résumé', 'good-hearted']
-    # result = ['d og','c appuccino','mil lenials', 'b ird', 's nake','be ar','re ally','bloc kchain', 'bl ue','cap puccino','bla ck', 'whi te', 'ora nge', 'com puter', 'mot her-in-law', 'vir tual', 'at taché','pe anut','ne tflix', 'résu mé', 'go od-hearted']
+     
+    def whos_that_pokemon():
+        url = "https://pokeapi.co/api/v2"
 
+        response = requests.get(f"{url}/pokemon/")
+        data = response.json()
 
-    #Used to generate a random number; the possible indices of the result list
-    random_index = random.randint(-1,23)
-
-    # word = 'résumé-resume' #Test word for hyphens
-    word = result[random_index]
+        all_pokemon = data["results"]
+        random_pokemon = random.choice(all_pokemon)
+        word = random_pokemon['name']
+    
+        return word
+    
+    word = whos_that_pokemon()
+    
     right_counter = 0
     wrong_counter = 0
 
@@ -43,7 +49,9 @@ def play_game():
     time.sleep(2) #Pause for 2 seconds for dramatic effect
     print('---------------How to Play:---------------')
     print('Guess which letters are in the word!')
+    
     time.sleep(1) #more pausing for dramatic effect
+    print("Hint: It's a pokemon!!")
     print("Run out of guesses and it's...")
 
     over = ['GAME','OVER','FOR','YOU!','---------------------------------------'] 
@@ -54,7 +62,7 @@ def play_game():
         time.sleep(1)
     #### End of presentation elements ####
       
-    print("This is your word: ") 
+    print("The pokemon is: ") 
     print(' '.join(word_underscore)) 
 
     #this loop will add 1 to the score, if a blank space is detected in the answer
@@ -92,7 +100,8 @@ def play_game():
             restart_game()
             return
         elif wrong_counter == 5:
-            print('You lose')
+            print('You lose!')
+            print("The answer is:" + " " + word)
             restart_game()
             return     
             
