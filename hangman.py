@@ -68,7 +68,10 @@ def play_game():
         else:
             continue
     while True: 
-        choice = input("Choose a letter: ")
+        choice = input("Choose a letter: ").lower()
+        if len(choice) != 1 or not choice.isalpha():
+            print("Invalid choice. Please enter only one letter (a-z).")
+            continue
         
         temp = right_counter + 0
         #check previous choices here
