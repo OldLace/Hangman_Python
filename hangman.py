@@ -41,7 +41,7 @@ def play_game():
             right_counter += 1
         
     #### Superfluous presentation elements - Remove when testing
-    print('*** Welcome to the Guessing Game!! ***')
+    print('*** Welcome to the Pokémon Guessing Game!! ***')
     time.sleep(2) #Pause for 2 seconds for dramatic effect
     print('---------------How to Play:---------------')
     print('Guess which letters are in the word!')
@@ -58,7 +58,7 @@ def play_game():
         time.sleep(1)
     #### End of presentation elements ####
       
-    print("The pokemon is: ") 
+    print("The pokémon is: ") 
     print(' '.join(word_underscore)) 
 
     #this loop will add 1 to the score, if a blank space is detected in the answer
