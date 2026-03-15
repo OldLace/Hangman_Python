@@ -8,15 +8,11 @@ import time #used  later for the time delays
 def play_game():
      
     def whos_that_pokemon():
+        id_number = random.randint(1, 900) #FYI: There are curently 900 different pokemon
         url = "https://pokeapi.co/api/v2"
-
-        response = requests.get(f"{url}/pokemon/")
+        response = requests.get(f"{url}/pokemon/{id_number}")
         data = response.json()
-
-        all_pokemon = data["results"]
-        random_pokemon = random.choice(all_pokemon)
-        word = random_pokemon['name']
-    
+        word = data['name']
         return word
     
     word = whos_that_pokemon()
