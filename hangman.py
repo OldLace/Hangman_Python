@@ -35,11 +35,6 @@ def main(matches, win_counter):
     previous_choices = []
     
     def game_options():
-        if win_counter > 0:
-            print("Rounds Won: " + str(win_counter))
-        else:
-            pass
-        
         print("Round: " +  str(matches))
         print("")
         difficulty = input("Choose a difficulty level -> Normal or Hard: ").lower()
@@ -92,6 +87,8 @@ def main(matches, win_counter):
                 print(i)
                 time.sleep(1)
         #### End of presentation elements ####
+        else:
+            print("Wins: " + str(win_counter))
         return
   
     time.sleep(2)
