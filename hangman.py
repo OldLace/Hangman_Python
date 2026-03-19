@@ -5,7 +5,11 @@ import requests
 import sys #used to quit the program when win or loss condition is met
 import time #used  later for the time delays
 
-def main():
+matches = 0
+win_counter = 0
+
+def main(matches, win_counter):
+    matches = matches + 1
     def whos_that_pokemon():
         try:
             id_number = random.randint(1, 900) #FYI: There are curently 900 different pokemon
@@ -13,22 +17,31 @@ def main():
             response = requests.get(f"{url}/pokemon/{id_number}")
             data = response.json()
             word = data['name']
+            print("Starting Match...")
         except requests.exceptions.RequestException:
-            pokemon = ['greninja','gardevoir','rayquaza','garchomp','sylveon','umbreon','charizard','mimikyu','lucario','gengar','psyduck']
-            word = pokemon[(random.randint(0,10))]
+            print("Network Error. Loading local questions...")
+            time.sleep(1)
+            print("Starting Match...")
+            time.sleep(1)
+            print("")
+            print("")
+            pokemon = ['bulbasaur','garchomp','gengar','umbreon','charizard','mimikyu','lucario','swampert','psyduck','pikachu']
+            word = random.choice(pokemon)
         return word
 
     word = whos_that_pokemon()
-
-    # difficulty = 'normal'
     right_counter = 0
     wrong_counter = 0
-
     previous_choices = []
     
-    
-    
     def game_options():
+        if win_counter > 0:
+            print("Rounds Won: " + str(win_counter))
+        else:
+            pass
+        
+        print("Round: " +  str(matches))
+        print("")
         difficulty = input("Choose a difficulty level -> Normal or Hard: ").lower()
         if difficulty in ['normal', 'n', 'norm']:
             difficulty = 'normal'
@@ -40,68 +53,61 @@ def main():
         return difficulty
 
     def create_underscore_word(word):
+        right_counter = 0
         new_word_underscore = []
+        numbers = ["1","2","3","4","5","6","7","8","9","0"]
         for i in  range(len(word)):
             new_word_underscore.append('_')
         for i in range(len(word)):
             if word[i] == '-':
                 new_word_underscore[i] = word[i]  
-            if word[i] == ' ':
-                new_word_underscore[i] = word[i]  
-        return new_word_underscore
-       
-    word_underscore = create_underscore_word(word)
-    for i in range(len(word)):
-        if word[i] == '-':
-            right_counter += 1
-        
-    #### Superfluous presentation elements - Remove when testing
-    print('*** Welcome to the Pokémon Guessing Game!! ***')
-    
-    # time.sleep(2) #Pause for 2 seconds for dramatic effect
-    print('---------------How to Play:---------------')
-    print('Guess which letters are in the word!')
-    
-    # time.sleep(1) #more pausing for dramatic effect
-    print("Hint: It's a pokemon!!")
-    print("Run out of guesses and it's...")
+                right_counter += 1
+            if word[i] in ' ':
+                new_word_underscore[i] = word[i]
+                right_counter += 1    
+            if word[i] in numbers:
+                new_word_underscore[i] = word[i]
+                right_counter += 1
+        return new_word_underscore, right_counter
 
-    over = ['GAME','OVER','FOR','YOU!','---------------------------------------'] 
+    word_underscore, right_counter = create_underscore_word(word)   
 
-    # A fun loop to add some character and flair to this game
-    for i in over:
-        print(i)
-        # time.sleep(1)
-    #### End of presentation elements ####
-    # game_options()
-    print("Network Error. Loading local questions...")
+    def initial_run(matches):
+        if matches == 1:
+           
+            print('*** Welcome to the Pokémon Guessing Game!! ***')
+            
+            time.sleep(2) #Pause for 2 seconds for dramatic effect
+            print('---------------How to Play:---------------')
+            print('Guess which letters are in the word!')
+            
+            time.sleep(1) #more pausing for dramatic effect
+            print("Hint: It's a pokemon!!")
+            print("Run out of guesses and it's...")
+
+            over = ['GAME','OVER','FOR','YOU!','---------------------------------------'] 
+
+            # A fun loop to add some character and flair to this game
+            for i in over:
+                print(i)
+                time.sleep(1)
+        #### End of presentation elements ####
+        return
+  
     time.sleep(2)
     print("")
     print("")
     print("")
-    print("The pokémon is: ") 
+    initial_run(matches)
+    
+    difficulty = game_options()
+    print("")
+    print("")
+    print("The pokémon is: ")
+    time.sleep(1) 
     print(' '.join(word_underscore)) 
 
-    #this loop will add 1 to the score, if a blank space is detected in the answer
-    for letter in word:  
-        if letter == " ": 
-            right_counter += 1
-        else:
-            continue
-    difficulty = game_options()
     while True:
-        # def game_options():
-            # difficulty = input("Choose a difficulty level -> Normal or Hard: ").lower()
-            # if difficulty in ['normal', 'n', 'norm']:
-            #     difficulty = 'normal'
-            #     return difficulty
-            # elif difficulty in ['hard', 'h']:
-            #     difficulty = 'hard'
-            #     # return difficulty
-            # else:
-            #     print("Invalid choice. Please try again.")
-            #     return game_options()
-
         choice = input("Choose a letter: ").lower()
         if len(choice) != 1 or not choice.isalpha():
             print("Invalid choice. Please enter only one letter (a-z).")
@@ -109,9 +115,6 @@ def main():
         
         temp = right_counter + 0
         #check previous choices here
-        if len(choice) > 1:
-            print("Invalid choice. Only 1 letter per turn")
-            continue
         if choice in previous_choices:
             print("Letter already used")
             continue
@@ -123,6 +126,7 @@ def main():
             if choice == word_letter:
                 right_counter += 1
                 print("Correct!")
+                print("")
                 word_underscore[i] = word[i]
         print(' '.join(word_underscore))
         if temp == right_counter:
@@ -131,20 +135,21 @@ def main():
             print('')
         if right_counter == len(word):
             print("You win!!")
-            restart_game()
+            win_counter = win_counter + 1
+            restart_game(matches, win_counter)
             return
         if difficulty == 'normal' and wrong_counter == 5:
             print('You lose!')
             print("The answer is:" + " " + word)
-            restart_game()
+            restart_game(matches, win_counter)
             return     
         elif difficulty == 'hard' and wrong_counter == 3:
             print('You lose!')
             print("The answer is:" + " " + word)
-            restart_game()
+            restart_game(matches, win_counter)
             return     
             
-def restart_game(): #function to restart game based on user input
+def restart_game(matches, win_counter): #function to restart game based on user input
     restart = input('Play again? (y/n): ')
     restart = restart.lower()
     if restart in  ['y','yes','yes.']:
@@ -153,13 +158,14 @@ def restart_game(): #function to restart game based on user input
         print('*************')
         print('*************')
         print('*************')
-        main()
+        
+        main(matches, win_counter)
     elif restart in ['n','no','no.']:
         print('Thanks for playing! Goodbye.')
         sys.exit(0)   #Exits program
     else:   
         print('Invalid choice.')
-        restart_game()
+        restart_game(matches, win_counter)
  
 if __name__ == "__main__":
-    main()
+    main(matches, win_counter)
