@@ -2,11 +2,7 @@
 
 import random #used later to generate random number for result index 
 import requests
-import sys #used to quit the program when win or loss condition is met
 import time #used  later for the time delays
-
-matches = 0
-win_counter = 0
 
 def main(matches, win_counter):
     matches = matches + 1
@@ -35,7 +31,7 @@ def main(matches, win_counter):
     previous_choices = []
     
     def game_options():
-        print("Round: " +  str(matches))
+        
         print("")
         difficulty = input("Choose a difficulty level -> Normal or Hard: ").lower()
         if difficulty in ['normal', 'n', 'norm']:
@@ -99,6 +95,7 @@ def main(matches, win_counter):
     
     difficulty = game_options()
     print("")
+    print("Round: " +  str(matches))
     print("")
     print("The pokémon is: ")
     time.sleep(1) 
@@ -133,36 +130,22 @@ def main(matches, win_counter):
         if right_counter == len(word):
             print("You win!!")
             win_counter = win_counter + 1
-            restart_game(matches, win_counter)
-            return
+            return matches, win_counter
         if difficulty == 'normal' and wrong_counter == 5:
             print('You lose!')
             print("The answer is:" + " " + word)
-            restart_game(matches, win_counter)
-            return     
+            return matches, win_counter
         elif difficulty == 'hard' and wrong_counter == 3:
             print('You lose!')
             print("The answer is:" + " " + word)
-            restart_game(matches, win_counter)
-            return     
+            return matches, win_counter
             
-def restart_game(matches, win_counter): #function to restart game based on user input
-    restart = input('Play again? (y/n): ')
-    restart = restart.lower()
-    if restart in  ['y','yes','yes.']:
-        print('*************')
-        print('*************')
-        print('*************')
-        print('*************')
-        print('*************')
-        
-        main(matches, win_counter)
-    elif restart in ['n','no','no.']:
-        print('Thanks for playing! Goodbye.')
-        sys.exit(0)   #Exits program
-    else:   
-        print('Invalid choice.')
-        restart_game(matches, win_counter)
- 
 if __name__ == "__main__":
-    main(matches, win_counter)
+    matches = 0
+    win_counter = 0
+    while True:
+        matches, win_counter = main(matches, win_counter)
+        restart = input("Play again? (y/n): ").lower()
+        if restart in ['n', 'no']:
+            print("Thanks for playing!")
+            break
