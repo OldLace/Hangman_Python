@@ -13,11 +13,17 @@ def main(matches, win_counter):
             response = requests.get(f"{url}/pokemon/{id_number}")
             data = response.json()
             word = data['name']
+
+            # word = "psyduck" #easy answer for testing purposes
+
             pokemon_type = data['types']
             pokemon_type_lst = []
             for t in pokemon_type:
                 pokemon_type = (t['type']['name'])
                 pokemon_type_lst.append(pokemon_type)
+            pokemon_stats_dict = {s['stat']['name']: s['base_stat'] for s in data['stats']}
+            
+            print("")
             print("Starting Match...")
         except requests.exceptions.RequestException:
             print("Network Error. Loading local questions...")
@@ -28,9 +34,9 @@ def main(matches, win_counter):
             print("")
             pokemon = ['bulbasaur','garchomp','gengar','umbreon','charizard','mimikyu','lucario','swampert','psyduck','pikachu']
             word = random.choice(pokemon)
-        return word, pokemon_type_lst
+        return word, pokemon_type_lst, pokemon_stats_dict
 
-    word, pokemon_type_lst = whos_that_pokemon()
+    word, pokemon_type_lst, pokemon_stats_dict = whos_that_pokemon()
     right_counter = 0
     wrong_counter = 0
     previous_choices = []
@@ -71,13 +77,10 @@ def main(matches, win_counter):
         if matches == 1:
            
             print('*** Welcome to the Pokémon Guessing Game!! ***')
-            
             time.sleep(2) #Pause for 2 seconds for dramatic effect
             print('---------------How to Play:---------------')
             print('Guess which letters are in the word!')
-            
             time.sleep(1) #more pausing for dramatic effect
-            # print("Hint: It's a pokemon!!")
             print("Run out of guesses and it's...")
 
             over = ['GAME','OVER','FOR','YOU!','---------------------------------------'] 
@@ -101,7 +104,7 @@ def main(matches, win_counter):
     print("")
     print("Round: " +  str(matches))
     print("")
-    # pokemon_type_lst = str
+    
     if len(pokemon_type_lst) > 1:
         time.sleep(1)
         print("Hint: It's a " + pokemon_type_lst[0] + ' and ' + pokemon_type_lst[1] + " type of pokemon!")
@@ -140,11 +143,23 @@ def main(matches, win_counter):
             wrong_counter += 1
             print('Incorrect guess')
             print('')
+            print('')
+            print(' '.join(word_underscore))
         if right_counter == len(word):
             print("You win!!")
+            print("")
+            print("")
+            print(word.upper())
+
+            for key, value in pokemon_stats_dict.items():
+                bar = "█" * (value // 10)
+                bar2 = "░" * (10 - value // 10)
+                print(f"{key:<16} {value:>3}  {bar}{bar2}")
+
+
             win_counter = win_counter + 1
             return matches, win_counter
-        if difficulty == 'normal' and wrong_counter == 5:
+        if difficulty == 'normal' and wrong_counter == 7:
             print('You lose!')
             print("The answer is:" + " " + word)
             return matches, win_counter
