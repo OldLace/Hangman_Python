@@ -8,14 +8,11 @@ def main(matches, win_counter):
     matches = matches + 1
     def whos_that_pokemon():
         try:
-            id_number = random.randint(1, 900) #FYI: There are curently 900 different pokemon
+            id_number = random.randint(1, 151) #FYI: There are curently 900 different pokemon
             url = "https://pokeapi.co/api/v2"
             response = requests.get(f"{url}/pokemon/{id_number}")
             data = response.json()
             word = data['name']
-
-            # word = "psyduck" #easy answer for testing purposes
-
             pokemon_type = data['types']
             pokemon_type_lst = []
             for t in pokemon_type:
@@ -26,6 +23,8 @@ def main(matches, win_counter):
             print("")
             print("Starting Match...")
         except requests.exceptions.RequestException:
+            pokemon_type_lst = ['unknown']
+            pokemon_stats_dict = {}
             print("Network Error. Loading local questions...")
             time.sleep(1)
             print("Starting Match...")
@@ -34,6 +33,7 @@ def main(matches, win_counter):
             print("")
             pokemon = ['bulbasaur','garchomp','gengar','umbreon','charizard','mimikyu','lucario','swampert','psyduck','pikachu']
             word = random.choice(pokemon)
+            pokemon_stats_dict = {'hp': 60, 'attack': 40, 'defense': 80, 'special-attack': 60, 'special-defense': 45, 'speed': 40}
         return word, pokemon_type_lst, pokemon_stats_dict
 
     word, pokemon_type_lst, pokemon_stats_dict = whos_that_pokemon()
@@ -41,7 +41,7 @@ def main(matches, win_counter):
     wrong_counter = 0
     previous_choices = []
     
-    def game_options(pokemon_type_lst):
+    def game_options():
         print("")
         difficulty = input("Choose a difficulty level -> Normal or Hard: ").lower()
         if difficulty in ['normal', 'n', 'norm']:
@@ -50,7 +50,7 @@ def main(matches, win_counter):
             difficulty = 'hard'
         else:
             print("Invalid choice. Please try again.")
-            difficulty = game_options(pokemon_type_lst)
+            difficulty = game_options()
         return difficulty
 
     def create_underscore_word(word):
@@ -75,16 +75,14 @@ def main(matches, win_counter):
 
     def initial_run(matches):
         if matches == 1:
-           
             print('*** Welcome to the Pokémon Guessing Game!! ***')
             time.sleep(2) #Pause for 2 seconds for dramatic effect
+            print("")
             print('---------------How to Play:---------------')
             print('Guess which letters are in the word!')
             time.sleep(1) #more pausing for dramatic effect
             print("Run out of guesses and it's...")
-
             over = ['GAME','OVER','FOR','YOU!','---------------------------------------'] 
-
             # A fun loop to add some character and flair to this game
             for i in over:
                 print(i)
@@ -99,18 +97,13 @@ def main(matches, win_counter):
     print("")
     print("")
     initial_run(matches)
-    
-    difficulty = game_options(pokemon_type_lst)
+
+    difficulty = game_options()
     print("")
     print("Round: " +  str(matches))
     print("")
-    
-    if len(pokemon_type_lst) > 1:
-        time.sleep(1)
-        print("Hint: It's a " + pokemon_type_lst[0] + ' and ' + pokemon_type_lst[1] + " type of pokemon!")
-    else:
-        time.sleep(1)
-        print("Hint: It's a " + pokemon_type_lst[0] + " type of pokemon!")
+    time.sleep(1)
+    print(f"Hint: It's a {' and '.join(pokemon_type_lst)} type pokemon!")
     print("")
     print("The pokémon is: ")
     time.sleep(1) 
@@ -144,19 +137,24 @@ def main(matches, win_counter):
             print('Incorrect guess')
             print('')
             print('')
-            print(' '.join(word_underscore))
         if right_counter == len(word):
-            print("You win!!")
-            print("")
             print("")
             print(word.upper())
-
+            print("")
+            print("""
+()()
+(._.)   You win!! 👍
+(")(")
+""")
+            print("")
+            max_stat = max(pokemon_stats_dict.values())
             for key, value in pokemon_stats_dict.items():
-                bar = "█" * (value // 10)
-                bar2 = "░" * (10 - value // 10)
-                print(f"{key:<16} {value:>3}  {bar}{bar2}")
+                label = key.replace('-', ' ').title()
+                bar = "█" * (value * 10 // max_stat)
+                bar2 = "░" * (10 - value * 10 // max_stat)
+                print(f"{label:<16} {value:>3}  {bar}{bar2}")
 
-
+            print("")
             win_counter = win_counter + 1
             return matches, win_counter
         if difficulty == 'normal' and wrong_counter == 7:
